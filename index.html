@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Wachen Karte</title>
+<title>Wachen Datenbank</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
@@ -10,12 +10,24 @@
 <style>
 #map { height: 600px; }
 body { font-family: Arial; }
+select { margin-right: 10px; padding: 5px; }
 </style>
 </head>
 
 <body>
 
 <h2>Wachen Datenbank</h2>
+
+<select id="typFilter">
+<option value="alle">Alle Typen</option>
+<option value="Feuerwehr">Feuerwehr</option>
+<option value="Polizei">Polizei</option>
+<option value="Rettungsdienst">Rettungsdienst</option>
+</select>
+
+<select id="bundeslandFilter">
+<option value="alle">Alle Bundesländer</option>
+</select>
 
 <div id="map"></div>
 
@@ -27,28 +39,91 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// CSV laden
-fetch('daten.csv')
-  .then(response => response.text())
-  .then(text => {
+			 
+																	  
+																  
+																				
+  
 
-    var rows = text.split("\n").slice(1); // Kopfzeile überspringen
+var markerLayer = L.layerGroup().addTo(map);
+var daten = [];
 
-    rows.forEach(function(row) {
-        var cols = row.split(",");
-        if(cols.length < 4) return;
+function getColor(typ) {
+    if (typ === "Feuerwehr") return "red";
+    if (typ === "Polizei") return "blue";
+    if (typ === "Rettungsdienst") return "green";
+    return "gray";
+}
 
-        var name = cols[0];
-        var typ = cols[1];
-        var lat = parseFloat(cols[2]);
-        var lng = parseFloat(cols[3]);
+function updateMap() {
+    markerLayer.clearLayers();
 
-        L.marker([lat, lng])
-          .bindPopup("<b>" + name + "</b><br>" + typ)
-          .addTo(map);
+    var typFilter = document.getElementById("typFilter").value;
+    var bundeslandFilter = document.getElementById("bundeslandFilter").value;
+
+    daten.forEach(function(eintrag) {
+
+        if ((typFilter === "alle" || eintrag.typ === typFilter) &&
+            (bundeslandFilter === "alle" || eintrag.bundesland === bundeslandFilter)) {
+
+            var marker = L.circleMarker([eintrag.lat, eintrag.lng], {
+                radius: 8,
+                color: getColor(eintrag.typ),
+                fillOpacity: 0.8
+            });
+
+            marker.bindPopup(
+                "<b>" + eintrag.name + "</b><br>" +
+                "Typ: " + eintrag.typ + "<br>" +
+                "Bundesland: " + eintrag.bundesland
+            );
+
+            marker.addTo(markerLayer);
+        }
     });
+}
 
-  });
+function loadCSV() {
+    fetch('daten.csv')
+    .then(response => response.text())
+    .then(text => {
+
+        var rows = text.split("\n").slice(1);
+        var bundeslaender = new Set();
+
+        rows.forEach(function(row) {
+            var cols = row.split(",");
+            if(cols.length < 5) return;
+
+            var eintrag = {
+                name: cols[0],
+                typ: cols[1],
+                bundesland: cols[2],
+                lat: parseFloat(cols[3]),
+                lng: parseFloat(cols[4])
+            };
+
+            daten.push(eintrag);
+            bundeslaender.add(eintrag.bundesland);
+        });
+
+        var blSelect = document.getElementById("bundeslandFilter");
+
+        bundeslaender.forEach(function(bl) {
+            var option = document.createElement("option");
+            option.value = bl;
+            option.text = bl;
+            blSelect.appendChild(option);
+        });
+
+        updateMap();
+    });
+}
+
+document.getElementById("typFilter").addEventListener("change", updateMap);
+document.getElementById("bundeslandFilter").addEventListener("change", updateMap);
+
+loadCSV();
 
 </script>
 
