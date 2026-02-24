@@ -4,11 +4,11 @@
 <meta charset="utf-8" />
 <title>Wachen Karte</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
-#map { height: 1000px; }
+#map { height: 600px; }
 body { font-family: Arial; }
 </style>
 </head>
@@ -17,46 +17,39 @@ body { font-family: Arial; }
 
 <h2>Wachen Datenbank</h2>
 
-<select id="filter">
-<option value="alle">Alle anzeigen</option>
-<option value="NEF">NEF</option>
-<option value="RTW">RTW</option>
-<option value="KTW">KTW</option>
-</select>
-
 <div id="map"></div>
 
 <script>
-var map = L.map('map').setView([48.740, 9.2553], 11);
+
+var map = L.map('map').setView([51.1657, 10.4515], 6);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-var daten = [
-    {name:"Rotkreuz Esslingen 1", typ:"NEF", coords:[48.738003375489406, 9.327123573608125]},
-    {name:"Johannes Esslingen 16", typ:"RTW", coords:[48.70776689159191, 9.142443257120622]},
-    {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.78873622140468, 9.193569581828257]}
-];
+// CSV laden
+fetch('daten.csv')
+  .then(response => response.text())
+  .then(text => {
 
-var markerLayer = L.layerGroup().addTo(map);
+    var rows = text.split("\n").slice(1); // Kopfzeile überspringen
 
-function updateMap(filter) {
-    markerLayer.clearLayers();
-    daten.forEach(function(eintrag) {
-        if(filter === "alle" || eintrag.typ === filter) {
-            L.marker(eintrag.coords)
-             .bindPopup("<b>"+eintrag.name+"</b><br>"+eintrag.typ)
-             .addTo(markerLayer);
-        }
+    rows.forEach(function(row) {
+        var cols = row.split(",");
+        if(cols.length < 4) return;
+
+        var name = cols[0];
+        var typ = cols[1];
+        var lat = parseFloat(cols[2]);
+        var lng = parseFloat(cols[3]);
+
+        L.marker([lat, lng])
+          .bindPopup("<b>" + name + "</b><br>" + typ)
+          .addTo(map);
     });
-}
 
-document.getElementById("filter").addEventListener("change", function() {
-    updateMap(this.value);
-});
+  });
 
-updateMap("alle");
 </script>
 
 </body>
