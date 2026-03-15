@@ -17,6 +17,19 @@ select { margin-right: 10px; padding: 3px; }
 <body>
 
 <h2>Wachenkarte</h2>
+
+<select id="typFilter">
+<option value="alle">Alle Typen</option>
+<option value="NEF">Notarzt</option>
+<option value="RTW">Rettungswagen</option>
+<option value="KTW">Krankentransport</option>
+</select>
+
+<select id="SchichtFilter">
+<option value="alle">Alle Schichten</option>
+</select>
+
+ 
 <div id="map"></div> <!--ist der Bereich, in dem Leaflet später die interaktive Karte rendert.-->
 
 <script>
