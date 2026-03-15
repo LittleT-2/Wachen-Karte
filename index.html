@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8" />
 <title>Wachen Datenbank</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>  <!--Diese Zeile lädt die Leaflet-JavaScript-Bibliothek, damit du interaktive Karten in deiner Webseite nutzen kannst.-->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
 #map { height: 900px; }
@@ -16,9 +16,9 @@ select { margin-right: 10px; padding: 3px; }
 
 <body>
 
-<h2>Wachenkarte</h2>
+<h2>Wachen Datenbank</h2>
 
-<select id="typFilter">
+<select id="Filter">
 <option value="alle">Alle Typen</option>
 <option value="NEF">Notarzt</option>
 <option value="RTW">Rettungswagen</option>
@@ -28,15 +28,14 @@ select { margin-right: 10px; padding: 3px; }
 <select id="SchichtFilter">
 <option value="alle">Alle Schichten</option>
 </select>
-
- 
-<div id="map"></div> <!--ist der Bereich, in dem Leaflet später die interaktive Karte rendert.-->
+    
+<div id="map"></div>
 
 <script>
-var map = L.map('map').setView([48.7380, 9.3271], 10);
+var map = L.map('map').setView([48.7380, 9.3271], 9);
 
-L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
- attribution: '© OpenStreetMap'
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
 }).addTo(map);
 
 var markerLayer = L.layerGroup().addTo(map);
@@ -47,10 +46,11 @@ var daten = [
     {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.78873622140468, 9.193569581828257]}
 ];
 
-function updateMap(typFilter) {
+    
+function updateMap(filter) {
     markerLayer.clearLayers();
     daten.forEach(function(eintrag) {
-        if(typFilter === "alle" || eintrag.typ === typFilter) {
+        if(filter === "alle" || eintrag.typ === filter) {
             L.marker(eintrag.coords)
              .bindPopup("<b>"+eintrag.name+"</b><br>"+eintrag.typ)
              .addTo(markerLayer);
@@ -63,9 +63,8 @@ document.getElementById("filter").addEventListener("change", function() {
 });
 
 updateMap("alle");
-
- 
 </script>
 
 </body>
 </html>
+
