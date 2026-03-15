@@ -8,7 +8,7 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
-#map { height: 1000px; }
+#map { height: 900px; }
 body { font-family: Arial; }
 </style>
 </head>
@@ -18,16 +18,20 @@ body { font-family: Arial; }
 <h2>Wachen Datenbank</h2>
 
 <select id="filter">
-<option value="alle">Alle anzeigen</option>
-<option value="NEF">NEF</option>
-<option value="RTW">RTW</option>
-<option value="KTW">KTW</option>
+<option value="alle">Alle Typen</option>
+<option value="NEF">Notarzt</option>
+<option value="RTW">Rettungswagen</option>
+<option value="KTW">Krankentransport</option>
 </select>
 
+<select id="SchichtFilter">
+<option value="alle">Alle Schichten</option>
+</select>
+    
 <div id="map"></div>
 
 <script>
-var map = L.map('map').setView([51.1657, 10.4515], 6);
+var map = L.map('map').setView([51.1657, 10.4515], 9);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
