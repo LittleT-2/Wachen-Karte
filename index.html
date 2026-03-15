@@ -8,7 +8,7 @@
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
-#map { height: 800px; }
+#map { height: 900px; }
 body { font-family: Arial; }
 select { margin-right: 10px; padding: 5px; }
 </style>
@@ -33,7 +33,7 @@ select { margin-right: 10px; padding: 5px; }
 
 <script>
 
-var map = L.map('map').setView([51.1657, 10.4515], 5);
+var map = L.map('map').setView([51.1657, 10.4515], 4);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
@@ -45,9 +45,9 @@ var markerLayer = L.layerGroup().addTo(map);
 var daten = [];
 
 function getColor(typ) {
-    if (typ === "Feuerwehr") return "red";
-    if (typ === "Polizei") return "blue";
-    if (typ === "Rettungsdienst") return "green";
+    if (typ === "NEF") return "red";
+    if (typ === "RTW") return "blue";
+    if (typ === "KTW") return "green";
     return "gray";
 }
 
