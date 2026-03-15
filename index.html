@@ -18,7 +18,7 @@ select { margin-right: 10px; padding: 3px; }
 
 <h2>Wachen Datenbank</h2>
 
-<select id="typFilter">
+<select id="Filter">
 <option value="alle">Alle Typen</option>
 <option value="NEF">Notarzt</option>
 <option value="RTW">Rettungswagen</option>
@@ -45,13 +45,6 @@ var daten = [
     {name:"Johannes Esslingen 16", typ:"RTW", coords:[48.70776689159191, 9.142443257120622]},
     {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.78873622140468, 9.193569581828257]}
 ];
-
-function getColor(typ) {
-    if (typ === "NEF") return "red";
-    if (typ === "RTW") return "blue";
-    if (typ === "KTW") return "green";
-    return "gray";
-}
 
     
 function updateMap(filter) {
