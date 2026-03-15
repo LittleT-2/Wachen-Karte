@@ -31,20 +31,28 @@ body { font-family: Arial; }
 <div id="map"></div>
 
 <script>
-var map = L.map('map').setView([51.1657, 10.4515], 9);
+var map = L.map('map').setView([48.7380, 9.3271], 9);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
+var markerLayer = L.layerGroup().addTo(map);
+    
 var daten = [
     {name:"Rotkreuz Esslingen 1", typ:"NEF", coords:[48.738003375489406, 9.327123573608125]},
     {name:"Johannes Esslingen 16", typ:"RTW", coords:[48.70776689159191, 9.142443257120622]},
     {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.78873622140468, 9.193569581828257]}
 ];
 
-var markerLayer = L.layerGroup().addTo(map);
+function getColor(typ) {
+    if (typ === "NEF") return "red";
+    if (typ === "RTW") return "blue";
+    if (typ === "KTW") return "green";
+    return "gray";
+}
 
+    
 function updateMap(filter) {
     markerLayer.clearLayers();
     daten.forEach(function(eintrag) {
