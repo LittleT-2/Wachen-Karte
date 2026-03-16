@@ -1,4 +1,4 @@
-name,typ,bundesland,lat,lng
-Feuerwehr Berlin,Feuerwehr,Berlin,52.52,13.405
-Polizei Hamburg,Polizei,Hamburg,53.55,10.00
-Rettungsdienst München,Rettungsdienst,Bayern,48.14,11.58
+name,typ,lat,lng
+Rotkreuz Esslingen 1,NEF,48.7380,9.3271
+Johannes Esslingen 16,RTW,48.7077,9.14244
+Rotkreuz Stuttgart 1,RTW,48.7887, 9.1935
