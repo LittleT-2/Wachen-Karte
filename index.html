@@ -32,24 +32,16 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // Beispiel Wachen
-var wachen = [
-  {
-    name: "Rotkreuz Esslingen 1",
-    lat: 48.7380,
-    lon: 9.3271
-  },
-  {
-    name: "Johannes Esslingen 16",
-    lat: 48.7077,
-    lon: 9.1424
-  }
+var daten = [
+  {name: "Rotkreuz Esslingen 1",lat: 48.7380,lon: 9.3271},
+  {name: "Johannes Esslingen 16",lat: 48.7077,lon: 9.1424}
 ];
 
 // Marker setzen
-wachen.forEach(function(wache) {
-  L.marker([wache.lat, wache.lon])
+daten.forEach(function(eintrag) {
+  L.marker([eintrag.lat, eintrag.lon])
     .addTo(map)
-    .bindPopup("<b>" + wache.name + "</b>");
+    .bindPopup("<b>" + eintrag.name + "</b>");
 });
 
 
