@@ -5,7 +5,8 @@
 <title>RD-Übersicht</title>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Leaflet CSS -->
-
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
+    
 <style>
 #map { height: 950px; }
 body { font-family: Arial; }
@@ -18,8 +19,6 @@ select { margin-right: 10px; padding: 3px; }
 <h2>Wachenkarte</h2>
 
 <div id="map"></div>
-
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
     
 <script>
 
@@ -32,7 +31,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 
-var markerLayer = L.layerGroup().addTo(map);
+// var markerLayer = L.layerGroup().addTo(map);
 
 // Standorte
 var daten = [
@@ -40,12 +39,12 @@ var daten = [
     {name:"Johannes Esslingen 16", typ:"RTW", coords:[48.7077, 9.14244]},
     {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.7887, 9.1935]}
 ];
-    markerLayer.clearLayers();
+// markerLayer.clearLayers();
 
 // Marker setzen
 daten.forEach(function(eintrag) {
   L.marker(eintrag.coords)
-    .addTo(markerLayer);
+    .addTo(map);
     .bindPopup("<b>" + eintrag.name + "</b>");
 });
 
