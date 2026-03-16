@@ -33,14 +33,14 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 
 // Standorte
 var daten = [
-    {name:"Rotkreuz Esslingen 1", typ:"NEF", coords:[48.7380, 9.3271]},
-    {name:"Johannes Esslingen 16", typ:"RTW", coords:[48.7077, 9.14244]},
-    {name:"Rotkreuz Esslingen 1", typ:"RTW", coords:[48.7887, 9.1935]}
+    {name: "Rotkreuz Esslingen 1", typ: "NEF", lat: 48.7380, long: 9.3271},
+    {name:"Johannes Esslingen 16", typ:"RTW", lat: 48.7077, long: 9.14244},
+    {name:"Rotkreuz Esslingen 1", typ:"RTW", lat: 48.7887, long: 9.1935}
 ];
 
 // Marker setzen
 daten.forEach(function(eintrag) {
-  L.marker(eintrag.coords)
+  L.marker([eintrag.lat, eintrag.long])
     .addTo(map)
     .bindPopup("<b>" + eintrag.name + "</b>");
 });
