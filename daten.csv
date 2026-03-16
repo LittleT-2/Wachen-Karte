@@ -1,4 +1,11 @@
-name,typ,lat,lng
-Rotkreuz Esslingen 1,NEF,48.7380,9.3271
+name,typ,Schicht,lat,lng
+Rotkreuz Esslingen 1,NEF,xx,48.7373,9.3282
+Rotkreuz Esslingen 1,RTW,24,48.7373,9.3282
+Rotkreuz Esslingen 1,RTW,12,48.7373,9.3282
+Rotkreuz Esslingen 2,NEF,24,48.7415,9.2545
+Rotkreuz Esslingen 2,RTW,24,48.7415,9.2545
+Rotkreuz Esslingen 3,NEF,24,48.6474,9.2043
+Rotkreuz Esslingen 3,RTW,24,48.6474,9.2043
+Rotkreuz Esslingen 3,RTW,12,48.6474,9.2043
 Johannes Esslingen 16,RTW,48.7077,9.14244
 Rotkreuz Stuttgart 1,RTW,48.7887, 9.1935
