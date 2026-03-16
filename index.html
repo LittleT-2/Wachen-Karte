@@ -33,7 +33,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(map);
 
 // CSV einlesen
-Papa.parse("wachen.csv", {
+Papa.parse("daten.csv", {
     download: true,
     header: true,
     skipEmptyLines: true,
