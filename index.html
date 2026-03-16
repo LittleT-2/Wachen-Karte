@@ -31,6 +31,9 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
+
+var markerLayer = L.layerGroup().addTo(map);
+
 // Standorte
 var daten = [
     {name:"Rotkreuz Esslingen 1", typ:"NEF", coords:[48.7380, 9.3271]},
@@ -41,7 +44,7 @@ var daten = [
 // Marker setzen
 daten.forEach(function(eintrag) {
   L.marker(eintrag.coords)
-    .addTo(map)
+    .addTo(markerLayer);
     .bindPopup("<b>" + eintrag.name + "</b>");
 });
 
