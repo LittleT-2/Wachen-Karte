@@ -1,29 +1,41 @@
-name,typ,Schicht,Anz,lat,lng
-Rotkreuz Esslingen 1,NEF,xx,1,48.7368,9.3277
-Rotkreuz Esslingen 1,RTW,24,2,48.7368,9.3277
-Rotkreuz Esslingen 1,RTW,12,1,48.7368,9.3277
-Rotkreuz Esslingen 4,NEF,24,1,48.6239,9.3414
-Rotkreuz Esslingen 4,RTW,24,2,48.6239,9.3414
-Rotkreuz Esslingen 4,RTW,12,1,48.6239,9.3414
-Rotkreuz Esslingen 5,NEF,24,1,48.6515,9.4427
-Rotkreuz Esslingen 5,RTW,24,2,48.6506,9.4359
-Rotkreuz Esslingen 5,RTW,12,1,48.6506,9.4359
+name,typ,Schicht,Anz,lat,lng,Ort
+Rotkreuz Esslingen 1,NEF,xx,1,48.7368,9.3277,Esslingen
+Rotkreuz Esslingen 1,RTW,24,2,48.7368,9.3277,Esslingen
+Rotkreuz Esslingen 1,RTW,12,1,48.7368,9.3277,Esslingen
+Rotkreuz Esslingen 2,NEF,24,1,48.7423,9.2550,Ostfildern-Ruit
+Rotkreuz Esslingen 2,RTW,24,1,48.7423,9.2550,Ostfildern-Ruit
+Rotkreuz Esslingen 3,NEF,24,1,48.6485,9.2041,Filderstadt-Bonlanden
+Rotkreuz Esslingen 3,RTW,24,1,48.6485,9.2041,Filderstadt-Bonlanden
+Rotkreuz Esslingen 3,RTW,12,1,48.6485,9.2041,Filderstadt-Bonlanden
+Rotkreuz Esslingen 4,NEF,24,1,48.6239,9.3414,Nürtingen
+Rotkreuz Esslingen 4,RTW,24,2,48.6239,9.3414,Nürtingen
+Rotkreuz Esslingen 4,RTW,12,1,48.6239,9.3414,Nürtingen
+Rotkreuz Esslingen 5,NEF,24,1,48.6515,9.4427,Kirchheim
+Rotkreuz Esslingen 5,RTW,24,2,48.6506,9.4359,Kirchheim
+Rotkreuz Esslingen 5,RTW,12,1,48.6506,9.4359,Kirchheim
+Rotkreuz Esslingen 6,RTW,0,1,48.7077,9.1423,Leinfelden-Echterdingen
+Johannes Esslingen 13,NEF,24,1,48.6604,9.2252,Filderstadt-Bonlanden
+Johannes Esslingen 14,RTW,24,1,48.6386,9.3439,Nürtingen
+Rotkreuz Esslingen 15,NEF,12,1,48.5831,9.4461,Owen
+Johannes Esslingen 16,RTW,24,1,48.7077,9.1423,Leinfelden-Echterdingen
+Johannes Esslingen 17,NEF,24,1,48.7148,9.4104,Plochingen
+Johannes Esslingen 17,RTW,24,1,48.7148,9.4104,Plochingen
+Johannes Esslingen 17,RTW,12,1,48.7148,9.4104,Plochingen
+Akkon Esslingen 19,RTW,24,1,48.6743,9.1835,LE-Stetten
 
-Johannes Esslingen 14,RTW,24,1,48.6386,9.3439
-Rotkreuz Esslingen 15,NEF,12,1,48.5831,9.4461
-
-Johannes Esslingen 17,NEF,24,1,48.7148,9.4104
-Johannes Esslingen 17,RTW,24,1,48.7148,9.4104
-Johannes Esslingen 17,RTW,12,1,48.7148,9.4104
-
-
-Johannes Esslingen 16,RTW,xx,x,48.7077,9.1424
-
-Rotkreuz Esslingen 2,NEF,24,1,48.7415,9.2545
-Rotkreuz Esslingen 2,RTW,24,1,48.7415,9.2545
-Rotkreuz Esslingen 3,NEF,24,1,48.6474,9.2043
-Rotkreuz Esslingen 3,RTW,24,1,48.6474,9.2043
-Rotkreuz Esslingen 3,RTW,12,1,48.6474,9.2043
-
-
-Rotkreuz Stuttgart 1,RTW,xx,x,48.7887,9.1935
+Rotkreuz Stuttgart 1,NEF,24,1,48.7886,9.1940,Stadtmitte
+Rotkreuz Stuttgart 1,RTW,24,3,48.7886,9.1940,Stadtmitte
+Rotkreuz Stuttgart 1,RTW,8,3,48.7886,9.1940,Stadtmitte
+Rotkreuz Stuttgart 2,NEF,24,1,48.8153,9.1878,RBK
+Rotkreuz Stuttgart 2,RTW,24,1,48.8153,9.1878,RBK
+Rotkreuz Stuttgart 4,RTW,24,2,48.7197,9.1272,Vaihingen
+Florian Stuttgart 5,NEF,24,1,48.7323,9.1567,Möhringen
+Florian Stuttgart 5,RTW,24,2,48.7323,9.1567,Möhringen
+Akkon Stuttgart 6,RTW,24,2,48.8311,9.1608,Zuffenhausen
+Akkon Stuttgart 6,RTW,16,1,48.8311,9.1608,Zuffenhausen
+Akkon Stuttgart 6,RTW,12,2,48.8311,9.1608,Zuffenhausen
+Johannes Stuttgart 8,RTW,24,1,48.7816,9.1637,Diak
+Johannes Stuttgart 8,RTW,12,1,48.7816,9.1637,Diak
+Akkon Stuttgart 11,NEF,24,1,48.7620,9.1628,MaHo
+Akkon Stuttgart 11,NEF,12,1,48.7620,9.1628,MaHo
+Sama Stuttgart 12,NEF,12,1,48.7912,9.1789,Türlenstraße
