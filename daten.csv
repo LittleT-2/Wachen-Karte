@@ -1,6 +1,8 @@
 name,typ,Schicht,Anz,lat,lng
-
-Rotkreuz Esslingen 4,NEF,24,1,48.7368,9.3277
+Rotkreuz Esslingen 1,NEF,xx,1,48.7368,9.3277
+Rotkreuz Esslingen 1,RTW,24,2,48.7368,9.3277
+Rotkreuz Esslingen 1,RTW,12,1,48.7368,9.3277
+Rotkreuz Esslingen 4,NEF,24,1,48.6239,9.3414
 Rotkreuz Esslingen 4,RTW,24,2,48.6239,9.3414
 Rotkreuz Esslingen 4,RTW,12,1,48.6239,9.3414
 Rotkreuz Esslingen 5,NEF,24,1,48.6515,9.4427
@@ -16,9 +18,7 @@ Johannes Esslingen 17,RTW,12,1,48.7148,9.4104
 
 
 Johannes Esslingen 16,RTW,xx,x,48.7077,9.1424
-Rotkreuz Esslingen 1,NEF,xx,1,48.7373,9.3282
-Rotkreuz Esslingen 1,RTW,24,2,48.7373,9.3282
-Rotkreuz Esslingen 1,RTW,12,1,48.7373,9.3282
+
 Rotkreuz Esslingen 2,NEF,24,1,48.7415,9.2545
 Rotkreuz Esslingen 2,RTW,24,1,48.7415,9.2545
 Rotkreuz Esslingen 3,NEF,24,1,48.6474,9.2043
