@@ -1,62 +1,62 @@
 <!DOCTYPE html>
-<html lang="de">
+<html>
 <head>
 <meta charset="utf-8" />
-<title>RD-Übersicht</title>
+<title>Wachen Karte</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <style>
-#map { height: 950px; }
+#map { height: 600px; }
 body { font-family: Arial; }
-select { margin-right: 10px; padding: 3px; }
 </style>
 </head>
 
 <body>
 
-<h2>Wachenkarte</h2>
+<h2>Wachen Datenbank</h2>
+
+<select id="filter">
+<option value="alle">Alle anzeigen</option>
+<option value="Feuerwehr">Feuerwehr</option>
+<option value="Polizei">Polizei</option>
+<option value="Rettungsdienst">Rettungsdienst</option>
+</select>
 
 <div id="map"></div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> <!-- PapaParse JS -->
-    
 <script>
+var map = L.map('map').setView([51.1657, 10.4515], 6);
 
-//Karte erstellen
-var map = L.map('map').setView([48.7300, 9.3271], 12);
-
-// OpenStreetMap Layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// CSV einlesen
-Papa.parse("daten.csv", {
-    download: true,
-    header: true,
-    skipEmptyLines: true,
-    complete: function(results) {
+var daten = [
+    {name:"Feuerwehr Berlin", typ:"Feuerwehr", coords:[52.52,13.405]},
+    {name:"Polizei Hamburg", typ:"Polizei", coords:[53.55,10.00]},
+    {name:"Rettungsdienst München", typ:"Rettungsdienst", coords:[48.14,11.58]}
+];
 
-        results.data.forEach(function(wache){
+var markerLayer = L.layerGroup().addTo(map);
 
-            var lat = parseFloat(wache.lat);
-            var lng = parseFloat(wache.lng);
+function updateMap(filter) {
+    markerLayer.clearLayers();
+    daten.forEach(function(eintrag) {
+        if(filter === "alle" || eintrag.typ === filter) {
+            L.marker(eintrag.coords)
+             .bindPopup("<b>"+eintrag.name+"</b><br>"+eintrag.typ)
+             .addTo(markerLayer);
+        }
+    });
+}
 
-            L.marker([lat, lng])
-             .addTo(map)
-             .bindPopup(
-                "<b>"+wache.name+"</b><br>" +
-                "Typ: "+wache.typ
-             );
-
-        });
-
-    }
+document.getElementById("filter").addEventListener("change", function() {
+    updateMap(this.value);
 });
 
-
+updateMap("alle");
 </script>
 
 </body>
