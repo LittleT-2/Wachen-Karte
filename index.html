@@ -1,63 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 <head>
 <meta charset="utf-8" />
-<title>Wachen Karte</title>
+<title>RD-Übersicht</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Leaflet CSS -->
 
 <style>
-#map { height: 600px; }
+#map { height: 950px; }
 body { font-family: Arial; }
+select { margin-right: 10px; padding: 3px; }
 </style>
 </head>
 
 <body>
 
-<h2>Wachen Datenbank</h2>
-
-<select id="filter">
-<option value="alle">Alle anzeigen</option>
-<option value="Feuerwehr">Feuerwehr</option>
-<option value="Polizei">Polizei</option>
-<option value="Rettungsdienst">Rettungsdienst</option>
-</select>
+<h2>Wachenkarte</h2>
 
 <div id="map"></div>
 
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
+    
 <script>
-var map = L.map('map').setView([51.1657, 10.4515], 6);
 
+//Karte erstellen
+var map = L.map('map').setView([48.7380, 9.3271], 12);
+
+// OpenStreetMap Layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
+// Standorte
 var daten = [
-    {name:"Feuerwehr Berlin", typ:"Feuerwehr", coords:[52.52,13.405]},
-    {name:"Polizei Hamburg", typ:"Polizei", coords:[53.55,10.00]},
-    {name:"Rettungsdienst München", typ:"Rettungsdienst", coords:[48.14,11.58]}
+   {name:"Rotkreuz Esslingen 1", typ:"RTW", Schicht:"24", coords:[48.7368,9.3277]},
+   {name:"Johannes Esslingen 16", typ:"RTW", Schicht:"24",coords:[,48.7077,9.1423]},
+   {name:"Rotkreuz Esslingen 4", typ:"NEF", Schicht:"24", coords:[48.6239,9.3414]},
+   {name:"Rotkreuz Esslingen 5", typ:"RTW", Schicht:"12", coords:[,48.6506,9.4359]}
 ];
 
-var markerLayer = L.layerGroup().addTo(map);
-
-function updateMap(filter) {
-    markerLayer.clearLayers();
-    daten.forEach(function(eintrag) {
-        if(filter === "alle" || eintrag.typ === filter) {
-            L.marker(eintrag.coords)
-             .bindPopup("<b>"+eintrag.name+"</b><br>"+eintrag.typ)
-             .addTo(markerLayer);
-        }
-    });
-}
-
-document.getElementById("filter").addEventListener("change", function() {
-    updateMap(this.value);
+// Marker setzen
+daten.forEach(function(eintrag) {
+L.marker(eintrag.coords)
+    .addTo(map)
+    .bindPopup("<b>" + eintrag.name + "</b>");
 });
 
-updateMap("alle");
+
 </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
