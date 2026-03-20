@@ -51,6 +51,7 @@ select { margin-right: 10px; padding: 3px; margin-bottom: 10px; }
 
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <!-- PapaParse JS -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> 
 
@@ -62,40 +63,30 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-var markers = []; // Marker Array
+var markers = []; // Array für Marker
 var wachenData = []; // CSV Daten
 
 var typFilter = document.getElementById('typFilter');
 var schichtFilter = document.getElementById('schichtFilter');
 
-// Farbtöne für NEF (Rot) und RTW (Blau) nach Schicht
-function getColor(typ, schicht) {
-    if(typ === "NEF") {
-        if(schicht === "xx") return 'red';
-        if(schicht === "12") return '#ff6666';
-        if(schicht === "24") return '#990000';
-        return '#cc0000';
-    }
-    if(typ === "RTW") {
-        if(schicht === "xx") return 'blue';
-        if(schicht === "12") return '#66ccff';
-        if(schicht === "24") return '#003399';
-        return '#0066cc';
-    }
-    return 'gray'; // sonst
-}
+// Leaflet Icons für NEF (rot) und RTW (blau)
+var redIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-red.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
-// Funktion für Marker-Icons mit beliebiger Farbe
-function createColoredIcon(color) {
-    return new L.Icon({
-        iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-'+color+'.png',
-        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
-    });
-}
+var blueIcon = new L.Icon({
+    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41]
+});
 
 // CSV einlesen
 Papa.parse("daten.csv", {
@@ -105,10 +96,11 @@ Papa.parse("daten.csv", {
     complete: function(results) {
         wachenData = results.data;
 
-        // Dropdowns füllen
+        // Einzigartige Werte für Filter extrahieren
         var typen = [...new Set(wachenData.map(w => w.typ))];
         var schichten = [...new Set(wachenData.map(w => w.Schicht))];
 
+        // Filter Dropdowns füllen
         typen.forEach(function(t){
             var option = document.createElement('option');
             option.value = t;
@@ -142,10 +134,10 @@ function updateMarkers() {
             var lat = parseFloat(wache.lat);
             var lng = parseFloat(wache.lng);
 
-            var color = getColor(wache.typ, wache.Schicht);
-            var icon = createColoredIcon(color === 'red' ? 'red' : color === 'blue' ? 'blue' : 'grey');
+            // Icon wählen
+            var icon = wache.typ === "NEF" ? redIcon : (wache.typ === "RTW" ? blueIcon : undefined);
 
-            var marker = L.marker([lat, lng], {icon: icon})
+            var marker = L.marker([lat, lng], icon ? {icon: icon} : {})
                 .bindPopup("<b>"+wache.name+"</b><br>Typ: "+wache.typ+"<br>Schicht: "+wache.Schicht);
 
             marker.addTo(map);
@@ -154,21 +146,20 @@ function updateMarkers() {
     });
 }
 
+// Event Listener für Filter
 typFilter.addEventListener('change', updateMarkers);
 schichtFilter.addEventListener('change', updateMarkers);
 
 // Legende hinzufügen
 var legend = L.control({position: 'bottomleft'});
+
 legend.onAdd = function(map) {
     var div = L.DomUtil.create('div', 'legend');
-    div.innerHTML += '<i style="background: red"></i> NEF xx / sonst<br>';
-    div.innerHTML += '<i style="background: #ff6666"></i> NEF Schicht 12<br>';
-    div.innerHTML += '<i style="background: #990000"></i> NEF Schicht 24<br>';
-    div.innerHTML += '<i style="background: blue"></i> RTW xx / sonst<br>';
-    div.innerHTML += '<i style="background: #66ccff"></i> RTW Schicht 12<br>';
-    div.innerHTML += '<i style="background: #003399"></i> RTW Schicht 24<br>';
+    div.innerHTML += '<i style="background: red"></i> NEF<br>';
+    div.innerHTML += '<i style="background: blue"></i> RTW<br>';
     return div;
 };
+
 legend.addTo(map);
 
 </script>
