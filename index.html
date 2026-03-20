@@ -18,17 +18,26 @@ select { margin-right: 10px; padding: 3px; margin-bottom: 10px; }
 
 <h2>Wachenkarte</h2>
 
+<!-- Filter Dropdowns -->
+<label for="typFilter">Typ:</label>
+<select id="typFilter">
+  <option value="all">Alle</option>
+</select>
+
+<label for="schichtFilter">Schicht:</label>
+<select id="schichtFilter">
+  <option value="all">Alle</option>
+</select>
+
 <div id="map"></div>
 
- <!-- Leaflet JS -->
+<!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
 <!-- PapaParse JS -->
 <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> 
-    
-<script>
 
-//Karte erstellen
+<script>
 var map = L.map('map').setView([48.7290, 9.3271], 12);
 
 // OpenStreetMap Layer
@@ -36,30 +45,73 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
+var markers = []; // Array für alle Marker
+var wachenData = []; // CSV Daten zwischenspeichern
+
+// Dropdown-Elemente
+var typFilter = document.getElementById('typFilter');
+var schichtFilter = document.getElementById('schichtFilter');
+
 // CSV einlesen
 Papa.parse("daten.csv", {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
+        wachenData = results.data;
 
-        results.data.forEach(function(wache){
+        // Einzigartige Werte für Filter extrahieren
+        var typen = [...new Set(wachenData.map(w => w.typ))];
+        var schichten = [...new Set(wachenData.map(w => w.Schicht))];
+
+        // Filter Dropdowns füllen
+        typen.forEach(function(t){
+            var option = document.createElement('option');
+            option.value = t;
+            option.text = t;
+            typFilter.add(option);
+        });
+
+        schichten.forEach(function(s){
+            var option = document.createElement('option');
+            option.value = s;
+            option.text = s;
+            schichtFilter.add(option);
+        });
+
+        // Alle Marker anzeigen
+        updateMarkers();
+    }
+});
+
+// Funktion um Marker zu aktualisieren
+function updateMarkers() {
+    // Alte Marker entfernen
+    markers.forEach(m => map.removeLayer(m));
+    markers = [];
+
+    var selectedTyp = typFilter.value;
+    var selectedSchicht = schichtFilter.value;
+
+    wachenData.forEach(function(wache){
+        if ((selectedTyp === 'all' || wache.typ === selectedTyp) &&
+            (selectedSchicht === 'all' || wache.Schicht === selectedSchicht)) {
 
             var lat = parseFloat(wache.lat);
             var lng = parseFloat(wache.lng);
 
-            L.marker([lat, lng])
-             .addTo(map)
-             .bindPopup(
-                "<b>"+wache.name+"</b><br>" +
-                "Typ: "+wache.typ
-             );
+            var marker = L.marker([lat, lng])
+                .bindPopup("<b>"+wache.name+"</b><br>Typ: "+wache.typ+"<br>Schicht: "+wache.Schicht);
 
-        });
+            marker.addTo(map);
+            markers.push(marker);
+        }
+    });
+}
 
-    }
-});
-
+// Event Listener für Filteränderungen
+typFilter.addEventListener('change', updateMarkers);
+schichtFilter.addEventListener('change', updateMarkers);
 
 </script>
 
