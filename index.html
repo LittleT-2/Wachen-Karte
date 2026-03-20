@@ -17,6 +17,22 @@ select { margin-right: 10px; padding: 3px; }
 
 <h2>Wachenkarte</h2>
 
+<!-- Filter-UI -->
+<label>Typ:</label>
+<select id="typFilter">
+  <option value="alle">Alle</option>
+  <option value="RTW">RTW</option>
+  <option value="NEF">NEF</option>
+</select>
+
+<label>Schicht:</label>
+<select id="schichtFilter">
+  <option value="alle">Alle</option>
+  <option value="24">24h</option>
+  <option value="12">12h</option>
+</select>
+<!-- Ende Filter-UI -->
+    
 <div id="map"></div>
 
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
@@ -31,22 +47,50 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// Standorte
+// Daten
 var daten = [
    {name:"Rotkreuz Esslingen 1", typ:"RTW", Schicht:"24", coords:[48.7368,9.3277]},
    {name:"Johannes Esslingen 16", typ:"RTW", Schicht:"24",coords:[48.7077,9.1423]},
    {name:"Rotkreuz Esslingen 4", typ:"NEF", Schicht:"24", coords:[48.6239,9.3414]},
    {name:"Rotkreuz Esslingen 5", typ:"RTW", Schicht:"12", coords:[48.6506,9.4359]},
-   {name:"Rotkreuz Stuttgart1", typ:"RTW", Schicht:"24", coords:[48.7887, 9.1935]}
+   {name:"Rotkreuz Stuttgart 1", typ:"RTW", Schicht:"24", coords:[48.7887, 9.1935]}
 ];
 
-// Marker setzen
+// Marker speichern
+var markerListe = [];
+
+// Marker erstellen
 daten.forEach(function(eintrag) {
-L.marker(eintrag.coords)
-    .addTo(map)
-    .bindPopup("<b>" + eintrag.name + "</b>");
+    var marker = L.marker(eintrag.coords)
+        .bindPopup("<b>" + eintrag.name + "</b>");
+
+    marker.eintrag = eintrag;
+    marker.addTo(map);
+    markerListe.push(marker);
 });
 
+// Filterfunktion
+function filterAnwenden() {
+    var typ = document.getElementById("typFilter").value;
+    var schicht = document.getElementById("schichtFilter").value;
+
+    markerListe.forEach(function(marker) {
+        var eintrag = marker.eintrag;
+
+        var typMatch = (typ === "alle" || eintrag.typ === typ);
+        var schichtMatch = (schicht === "alle" || eintrag.Schicht === schicht);
+
+        if (typMatch && schichtMatch) {
+            map.addLayer(marker);
+        } else {
+            map.removeLayer(marker);
+        }
+    });
+}
+
+// Event Listener
+document.getElementById("typFilter").addEventListener("change", filterAnwenden);
+document.getElementById("schichtFilter").addEventListener("change", filterAnwenden);
 
 </script>
 
