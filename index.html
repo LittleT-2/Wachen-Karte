@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8" />
-<title>RD-Übersicht mit Landkreisen</title>
+<title>RD-Übersicht</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> 
 <style>
 #map { height: 950px; }
@@ -29,7 +29,7 @@ select { margin-right: 10px; padding: 3px; margin-bottom: 10px; }
 </head>
 <body>
 
-<h2>Wachenkarte mit Landkreisen</h2>
+<h2>Wachenkarte</h2>
 
 <label for="typFilter">Typ:</label>
 <select id="typFilter">
@@ -66,7 +66,6 @@ function createIcon(color){
     });
 }
 
-// CSV laden
 Papa.parse("daten.csv", {
     download: true,
     header: true,
@@ -109,7 +108,7 @@ function updateMarkers(){
         let hasNEF = vehicles.some(v=>v.typ==="NEF");
         let hasRTW = vehicles.some(v=>v.typ==="RTW");
         let color = 'grey';
-        if(hasNEF && hasRTW) color='violet';
+        if(hasNEF && hasRTW) color='violet';  // gemischt
         else if(hasNEF) color='red';
         else if(hasRTW) color='blue';
 
@@ -137,28 +136,6 @@ legend.onAdd = function(map){
     return div;
 };
 legend.addTo(map);
-
-// Landkreisgrenzen einbinden
-fetch("landkreise.geojson") // hier Pfad zu deiner GeoJSON-Datei
-  .then(response => response.json())
-  .then(geojsonData => {
-      L.geoJSON(geojsonData, {
-          style: function(feature) {
-              return {
-                  color: "#555",    // Linienfarbe
-                  weight: 2,
-                  fillOpacity: 0
-              };
-          },
-          onEachFeature: function(feature, layer) {
-              if(feature.properties && feature.properties.NAME){
-                  layer.bindPopup("Landkreis: " + feature.properties.NAME);
-              }
-          }
-      }).addTo(map);
-  })
-  .catch(err => console.error("Fehler beim Laden der GeoJSON:", err));
-
 </script>
 </body>
 </html>
