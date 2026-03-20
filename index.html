@@ -4,12 +4,12 @@
 <meta charset="utf-8" />
 <title>RD-Übersicht</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
 <style>
 #map { height: 950px; }
 body { font-family: Arial; }
-select { margin-right: 10px; padding: 3px; }
+select { margin-right: 10px; padding: 5px; }
 </style>
 </head>
 
@@ -17,57 +17,85 @@ select { margin-right: 10px; padding: 3px; }
 
 <h2>Wachenkarte</h2>
 
-<!-- Filter-UI -->
+<!-- Filter -->
 <label>Typ:</label>
 <select id="typFilter">
   <option value="alle">Alle</option>
-  <option value="RTW">RTW</option>
-  <option value="NEF">NEF</option>
 </select>
 
 <label>Schicht:</label>
 <select id="schichtFilter">
   <option value="alle">Alle</option>
-  <option value="24">24h</option>
-  <option value="12">12h</option>
 </select>
-<!-- Ende Filter-UI -->
-    
+
 <div id="map"></div>
 
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> <!-- PapaParse JS -->
-    
+<!-- Leaflet -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<!-- PapaParse -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+
 <script>
 
-//Karte erstellen
+// Karte
 var map = L.map('map').setView([48.7280, 9.3271], 12);
 
-// OpenStreetMap Layer
+// Tile Layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// Daten
-var daten = [
-   {name:"Rotkreuz Esslingen 1", typ:"RTW", Schicht:"24", coords:[48.7368,9.3277]},
-   {name:"Johannes Esslingen 16", typ:"RTW", Schicht:"24",coords:[48.7077,9.1423]},
-   {name:"Rotkreuz Esslingen 4", typ:"NEF", Schicht:"24", coords:[48.6239,9.3414]},
-   {name:"Rotkreuz Esslingen 5", typ:"RTW", Schicht:"12", coords:[48.6506,9.4359]},
-   {name:"Rotkreuz Stuttgart 1", typ:"RTW", Schicht:"24", coords:[48.7887, 9.1935]}
-];
-
-// Marker speichern
+// Markerliste
 var markerListe = [];
 
-// Marker erstellen
-daten.forEach(function(eintrag) {
-    var marker = L.marker(eintrag.coords)
-        .bindPopup("<b>" + eintrag.name + "</b>");
+// Filterwerte sammeln
+var typenSet = new Set();
+var schichtenSet = new Set();
 
-    marker.eintrag = eintrag;
-    marker.addTo(map);
-    markerListe.push(marker);
+// CSV laden
+Papa.parse("daten.csv", {
+    download: true,
+    header: true,
+    skipEmptyLines: true,
+    complete: function(results) {
+
+        results.data.forEach(function(eintrag) {
+
+            // Werte sammeln für Filter
+            typenSet.add(eintrag.typ);
+            schichtenSet.add(eintrag.Schicht);
+
+            var coords = [
+                parseFloat(eintrag.lat),
+                parseFloat(eintrag.lon)
+            ];
+
+            var marker = L.marker(coords)
+                .bindPopup("<b>" + eintrag.name + "</b>");
+
+            marker.eintrag = eintrag;
+            marker.addTo(map);
+            markerListe.push(marker);
+        });
+
+        // Filter befüllen
+        var typSelect = document.getElementById("typFilter");
+        typenSet.forEach(function(t) {
+            var opt = document.createElement("option");
+            opt.value = t;
+            opt.text = t;
+            typSelect.appendChild(opt);
+        });
+
+        var schichtSelect = document.getElementById("schichtFilter");
+        schichtenSet.forEach(function(s) {
+            var opt = document.createElement("option");
+            opt.value = s;
+            opt.text = s + "h";
+            schichtSelect.appendChild(opt);
+        });
+    }
 });
 
 // Filterfunktion
@@ -76,10 +104,10 @@ function filterAnwenden() {
     var schicht = document.getElementById("schichtFilter").value;
 
     markerListe.forEach(function(marker) {
-        var eintrag = marker.eintrag;
+        var e = marker.eintrag;
 
-        var typMatch = (typ === "alle" || eintrag.typ === typ);
-        var schichtMatch = (schicht === "alle" || eintrag.Schicht === schicht);
+        var typMatch = (typ === "alle" || e.typ === typ);
+        var schichtMatch = (schicht === "alle" || e.Schicht === schicht);
 
         if (typMatch && schichtMatch) {
             map.addLayer(marker);
@@ -94,9 +122,6 @@ document.getElementById("typFilter").addEventListener("change", filterAnwenden);
 document.getElementById("schichtFilter").addEventListener("change", filterAnwenden);
 
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
