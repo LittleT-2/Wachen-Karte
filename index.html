@@ -1,15 +1,17 @@
+Leaflet Karte in HTML über csv Daten eingelesen
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
 <meta charset="utf-8" />
 <title>RD-Übersicht</title>
 
-<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/> <!-- Leaflet CSS -->
 
 <style>
 #map { height: 950px; }
 body { font-family: Arial; }
-select { margin-right: 10px; padding: 5px; }
+select { margin-right: 10px; padding: 3px; }
 </style>
 </head>
 
@@ -17,109 +19,45 @@ select { margin-right: 10px; padding: 5px; }
 
 <h2>Wachenkarte</h2>
 
-<!-- Filter -->
-<label>Typ:</label>
-<select id="typFilter">
-  <option value="alle">Alle</option>
-</select>
-
-<label>Schicht:</label>
-<select id="schichtFilter">
-  <option value="alle">Alle</option>
-</select>
-
 <div id="map"></div>
 
-<!-- Leaflet -->
-<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-
-<!-- PapaParse -->
-<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
-
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script> <!-- Leaflet JS -->
+<script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script> <!-- PapaParse JS -->
+    
 <script>
 
-// Karte
+//Karte erstellen
 var map = L.map('map').setView([48.7280, 9.3271], 12);
 
-// Tile Layer
+// OpenStreetMap Layer
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// Markerliste
-var markerListe = [];
-
-// Filterwerte sammeln
-var typenSet = new Set();
-var schichtenSet = new Set();
-
-// CSV laden
+// CSV einlesen
 Papa.parse("daten.csv", {
     download: true,
     header: true,
     skipEmptyLines: true,
     complete: function(results) {
 
-        results.data.forEach(function(eintrag) {
+        results.data.forEach(function(wache){
 
-            // Werte sammeln für Filter
-            typenSet.add(eintrag.typ);
-            schichtenSet.add(eintrag.Schicht);
+            var lat = parseFloat(wache.lat);
+            var lng = parseFloat(wache.lng);
 
-            var coords = [
-                parseFloat(eintrag.lat),
-                parseFloat(eintrag.lon)
-            ];
+            L.marker([lat, lng])
+             .addTo(map)
+             .bindPopup(
+                "<b>"+wache.name+"</b><br>" +
+                "Typ: "+wache.typ
+             );
 
-            var marker = L.marker(coords)
-                .bindPopup("<b>" + eintrag.name + "</b>");
-
-            marker.eintrag = eintrag;
-            marker.addTo(map);
-            markerListe.push(marker);
         });
 
-        // Filter befüllen
-        var typSelect = document.getElementById("typFilter");
-        typenSet.forEach(function(t) {
-            var opt = document.createElement("option");
-            opt.value = t;
-            opt.text = t;
-            typSelect.appendChild(opt);
-        });
-
-        var schichtSelect = document.getElementById("schichtFilter");
-        schichtenSet.forEach(function(s) {
-            var opt = document.createElement("option");
-            opt.value = s;
-            opt.text = s + "h";
-            schichtSelect.appendChild(opt);
-        });
     }
 });
 
-// Filterfunktion
-function filterAnwenden() {
-    var typ = document.getElementById("typFilter").value;
-    var schicht = document.getElementById("schichtFilter").value;
-
-    markerListe.forEach(function(marker) {
-        var e = marker.eintrag;
-
-        var typMatch = (typ === "alle" || e.typ === typ);
-        var schichtMatch = (schicht === "alle" || e.Schicht === schicht);
-
-        if (typMatch && schichtMatch) {
-            map.addLayer(marker);
-        } else {
-            map.removeLayer(marker);
-        }
-    });
-}
-
-// Event Listener
-document.getElementById("typFilter").addEventListener("change", filterAnwenden);
-document.getElementById("schichtFilter").addEventListener("change", filterAnwenden);
 
 </script>
 
