@@ -2,6 +2,8 @@ name,typ,Schicht,Anz,lat,lng,LK,Ort
 Rotkreuz Esslingen 1,NEF,24,1,48.7368,9.3277,Esslingen,Esslingen
 Rotkreuz Esslingen 1,RTW,24,2,48.7368,9.3277,Esslingen,Esslingen
 Rotkreuz Esslingen 1,RTW,12,1,48.7368,9.3277,Esslingen,Esslingen
+Rotkreuz Esslingen 1,KTW,24,1,48.7368,9.3277,Esslingen,Esslingen
+Rotkreuz Esslingen 1,KTW,12,3,48.7368,9.3277,Esslingen,Esslingen
 Rotkreuz Esslingen 2,NEF,24,1,48.7423,9.2550,Esslingen,Ostfildern-Ruit
 Rotkreuz Esslingen 2,RTW,24,1,48.7423,9.2550,Esslingen,Ostfildern-Ruit
 Rotkreuz Esslingen 3,NEF,24,1,48.6485,9.2041,Esslingen,Filderstadt-Bonlanden
@@ -16,6 +18,8 @@ Rotkreuz Esslingen 5,RTW,24,2,48.6506,9.4359,Esslingen,Kirchheim
 Rotkreuz Esslingen 5,RTW,12,1,48.6506,9.4359,Esslingen,Kirchheim
 Rotkreuz Esslingen 5,KTW,12,3,48.6506,9.4359,Esslingen,Kirchheim
 Rotkreuz Esslingen 6,RTW,0,1,48.7077,9.1423,Esslingen,Leinfelden-Echterdingen
+Akkon Esslingen 09,KTW,??,5,48.7147, 9.3257,Esslingen,Esslingen-Berkheim
+Sama Esslingen 11,KTW??,?,48.7245,9.3031,Esslingen,Esslingen-Pliensauvorstadt
 Johannes Esslingen 13,NEF,24,1,48.6604,9.2252,Esslingen,Filderstadt-Bonlanden
 Johannes Esslingen 14,RTW,24,1,48.6386,9.3439,Esslingen,Nürtingen
 Johannes Esslingen 14,KTW,??,?,48.6386,9.3439,Esslingen,Nürtingen
